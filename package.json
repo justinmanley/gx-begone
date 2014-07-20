@@ -1,0 +1,40 @@
+{
+  "name": "gx-begone",
+  "version": "0.1.0",
+  "description": "Convert Google's proprietary gx-prefixed KML format (output my My Tracks) to standard KML.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manleyjster/gx-begone.git"
+  },
+  "dependencies": {
+    "augment": "4.3.0",
+    "xml2js": "0.4.4",
+    "gdal": "0.0.1",
+    "underscore": "1.6.0",
+    "xmldom": "0.1.19",
+    "xpath": "0.0.7"
+  },
+  "devDependencies": {
+    "grunt": "0.4.1",
+    "grunt-contrib-watch": "0.6.1",
+    "grunt-contrib-jshint": "0.10.0",
+    "grunt-execute": "0.2.2",
+    "jshint": "2.5.2",
+    "matchdep": "0.3.0"
+  },
+  "keywords": [
+    "kml",
+    "ogr2ogr",
+    "my-tracks"
+  ],
+  "author": "Justin Manley",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/manleyjster/gx-begone/issues"
+  },
+  "homepage": "https://github.com/manleyjster/gx-begone"
+}
