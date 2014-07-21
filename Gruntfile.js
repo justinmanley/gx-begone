@@ -21,13 +21,27 @@ module.exports = function(grunt) {
                 undef: true,
                 unused: true,
                 trailing: true,
-                smarttabs: true
+                smarttabs: true,
+                globals: {
+                    describe: true,
+                    beforeEach: true,
+                    it: true
+                }
             },
             source: {
-                src: [ '*.js', 'src/*.js' ]
+                src: [ '*.js', 'test/*.js', 'src/*.js' ]
             },
             grunt: {
                 src: [ 'Gruntfile.js' ]
+            }
+        },
+
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec'
+                },
+                src: [ 'test/*.js' ]
             }
         },
 
@@ -47,12 +61,14 @@ module.exports = function(grunt) {
             source: {
                 files: [
                     'src/*.js',
+                    'test/*.js',
                     'examples/*.js',
                     'Gruntfile.js'
                 ],
                 tasks: [
-                    'jshint', 
-                    'execute'
+                    'jshint',
+                    'mochaTest'
+                    // 'execute'
                 ]
             }
         },
@@ -60,6 +76,5 @@ module.exports = function(grunt) {
     });
 
     //defaults
-    grunt.registerTask('default', [ 'watch:source' ]);
-
+    grunt.registerTask( 'default', [ 'watch:source' ]);
 };

@@ -22,9 +22,12 @@
     "grunt": "0.4.1",
     "grunt-contrib-watch": "0.6.1",
     "grunt-contrib-jshint": "0.10.0",
+    "grunt-mocha-test": "0.11.0",
     "grunt-execute": "0.2.2",
     "jshint": "2.5.2",
-    "matchdep": "0.3.0"
+    "matchdep": "0.3.0",
+    "mocha": "~1.14.0",
+    "chai": "1.9.1"
   },
   "keywords": [
     "kml",

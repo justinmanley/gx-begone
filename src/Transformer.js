@@ -1,27 +1,18 @@
 var augment = require("augment"),
-	fs = require("fs"),
 	_ = require("underscore"),
 	xmldom = require("xmldom"),
 	xpath = require("xpath");
 
 module.exports = augment.defclass({
 
-	constructor: function(rules) {
+	constructor: function(xmlstring, rules) {
+		this._xml = new xmldom.DOMParser().parseFromString(xmlstring);
 		this._transformRules = _.merge({}, rules);
 	},
 
-	begone: function(filename) {
-		var data;
-
-		if (!filename) {
-			console.error('Filename must be provided');
-			process.exit(1);
-		}
-
-		data = fs.readFileSync(filename, { encoding: 'utf8' });
-		this._xml = new xmldom.DOMParser().parseFromString(data);
+	begone: function() {
 		this.transform();
-		return this;
+		return this.toXML();
 	},
 
 	transform: function() {
@@ -29,7 +20,7 @@ module.exports = augment.defclass({
 		for (var target in this._transformRules) {
 			if (Object.prototype.hasOwnProperty.call(this._transformRules, target)) {
 				applyTransformRule = this._transformRules[target];
-				nodes = this.select("//" + target, this._xml);
+				nodes = this.select(target);
 
 				_.each(nodes, applyTransformRule, this);
 			}
@@ -43,7 +34,8 @@ module.exports = augment.defclass({
 	},
 
 	select: function(predicate) {
-		return xpath.select(predicate);
+		var select = xpath.useNamespaces(this._xml.documentElement._nsMap);
+		return select("//" + predicate, this._xml);
 	},
 
 	addTransformRule: function(selector, rule) {
@@ -64,12 +56,33 @@ module.exports = augment.defclass({
 			child;
 
 		while (node.childNodes.length > 0) {
-			child = node.lastChild;
-			node.removeChild(node.lastChild);
+			child = node.firstChild;
+			node.removeChild(node.firstChild);
 			replacement.appendChild(child);
 		}
 
 		node.parentNode.replaceChild(replacement, node);
+	},
+
+	deleteNode: function(node) {
+		node.parentNode.removeChild(node);
+		return this;
+	},
+
+	amputateNode: function(node) {
+		var parent = node.parentNode,
+			child;
+
+		while (node.childNodes.length > 0) {
+			child = node.firstChild;
+			console.log(child.nodeName);
+			node.removeChild(child);
+			parent.insertBefore(node, child);
+		}
+
+		this.deleteNode(node);
+
+		return this;
 	}
 
 });
